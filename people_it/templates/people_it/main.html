@@ -1,0 +1,13 @@
+{% extends "people_it/base.html" %}
+
+{% block content %}
+    {% for person in people %}
+    <div class="content_post">
+        <img src="{{ person.photo.url }}" class='post_photo' alt="">
+        <h2 class="post_name">{{ person.name }}</h2>
+        <p class='post_content'>{{ person.who_is }}</p> 
+    </div>
+    <a href="{{ person.get_absolute_url }}" class="btn"><div class="btn_text">Читать пост</div></a>  
+  
+    {% endfor %}
+{% endblock %}

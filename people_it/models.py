@@ -1,5 +1,5 @@
 from django.db import models
-from django.db.models.fields import BooleanField, CharField, DateTimeField, SlugField, TextField
+from django.urls import reverse
 from django.db.models.fields.files import ImageField
 from django.db.models.fields.related import ForeignKey
 from django.db.models.fields import CharField, TextField
@@ -16,6 +16,9 @@ class PeopleIt(models.Model):
     is_published =  models.BooleanField(default=True)
     cat = ForeignKey('Category', on_delete=models.PROTECT)
 
+    def get_absolute_url(self):
+        return reverse('show_post', kwargs={'post_slug': self.slug})
+
     def __str__(self):
         return self.name
 
@@ -27,6 +30,9 @@ class PeopleIt(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=255, db_index=True)
     slug = models.SlugField(max_length=255, unique=True, db_index=True)
+
+    def get_absolute_url(self):
+        return reverse('categories', kwargs={'cat_slug': self.slug})
 
     def __str__(self):
         return self.name

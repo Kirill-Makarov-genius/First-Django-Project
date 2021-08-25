@@ -1,0 +1,13 @@
+{% extends 'people_it/base.html' %}
+
+{% block content %}
+
+<div class="show_post">
+    <img src="{{person.photo.url}}" alt="" class="show_post_photo">
+    <div class="show_post_content">
+        <p class="show_post_text">Кто он: {{ person.who_is }}</p>
+        <p class="show_post_text">Что сделал: {{ person.what_did }}</p>
+        <p class="show_post_text">Награды: {{ person.achievements }}</p>
+    </div>
+</div>
+{% endblock %}
