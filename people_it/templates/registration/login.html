@@ -1,0 +1,14 @@
+
+
+<h2>Login</h2>
+
+<form method="POST", enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    {% for form_item in form %}
+    <label for="{{ form_item.id_for_label }}">{{form_item.label}}</label><p>{{form_item}}</p>
+    {% endfor %}
+
+    <button type="submit">Login</button>
+</form>
+

@@ -116,6 +116,12 @@ USE_L10N = True
 USE_TZ = True
 
 
+# Login and Logout redirects
+
+LOGIN_REDIRECT_URL = 'home'
+
+LOGOUT_REDIRECT_URL = 'home'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 

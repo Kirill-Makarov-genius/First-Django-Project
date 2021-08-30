@@ -9,5 +9,10 @@
         <p class="show_post_text">Что сделал: {{ person.what_did }}</p>
         <p class="show_post_text">Награды: {{ person.achievements }}</p>
     </div>
+    <div class="content_time_body">
+        <div class="content_time_item">Дата Создания: {{ person.time_create }}</div>
+        <div class="content_time_item">Последние изменение: {{ person.time_update }}</div>
+    </div>
+    
 </div>
 {% endblock %}

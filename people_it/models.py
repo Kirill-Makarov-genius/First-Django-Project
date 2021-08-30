@@ -5,16 +5,16 @@ from django.db.models.fields.related import ForeignKey
 from django.db.models.fields import CharField, TextField
 
 class PeopleIt(models.Model):
-    name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255, unique=True, db_index=True)
-    who_is = models.TextField()
-    what_did = models.TextField()
-    achievements = models.TextField()
-    photo = models.ImageField(upload_to = "photos/%Y/%m/%d/")
-    time_create = models.DateTimeField(auto_now_add=True)
-    time_update = models.DateTimeField(auto_now=True)
-    is_published =  models.BooleanField(default=True)
-    cat = ForeignKey('Category', on_delete=models.PROTECT)
+    name = models.CharField(max_length=255, verbose_name='Имя')
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL')
+    who_is = models.TextField(verbose_name='Кто он')
+    what_did = models.TextField(verbose_name='Что сделал')
+    achievements = models.TextField(verbose_name='Достижения')
+    photo = models.ImageField(upload_to = "photos/%Y/%m/%d/", verbose_name='Фотография')
+    time_create = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
+    time_update = models.DateTimeField(auto_now=True, verbose_name='Последние изменение')
+    is_published =  models.BooleanField(default=True, verbose_name='Опубликовать')
+    cat = ForeignKey('Category', on_delete=models.PROTECT, verbose_name='Категория')
 
     def get_absolute_url(self):
         return reverse('show_post', kwargs={'post_slug': self.slug})

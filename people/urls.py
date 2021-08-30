@@ -23,6 +23,7 @@ from people import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('people_it.urls')),
+    path('accounts/', include("django.contrib.auth.urls"))
 ]
 
 if settings.DEBUG == True:

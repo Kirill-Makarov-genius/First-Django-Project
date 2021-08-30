@@ -474,7 +474,7 @@ XVII. Создание форм без связи с моделью. -----------
                 Women.objects.create(**form.cleaned_data)
                 return redirect ("main")
     2. Если при создании формы возникла ошибка, то обрабатываем ошибку и выводим её через html конструкцию
-        excep:
+        except:
             form.add_error(None, 'Ошибка добавления поста')
         addpage.html:
             <div class="form-error">{{ form.non_field_errors }}</div>
@@ -692,7 +692,7 @@ XXI. Mixins - убираем дублирование кода -----------------
     1. LoginRequiredMixin ипользуется для проверки пользователя, залогинен он или нет.
     2. Чтобы использовать LoginRequiredMixin достаточно добавить его в класс представления.
         class AddPage(LoginRequiredMixin, DataMixin, CreateView)
-    3. Если пользователь не авторизован, то странци отобразит ошибку 404. Это не очень удобно, поэтому стоит прописать редирект через login_url = reverse_lazy(<Название маршрута>)
+    3. Если пользователь не авторизован, то отобразится ошибка 404. Это не очень удобно, поэтому стоит прописать редирект через login_url = reverse_lazy(<Название маршрута>)
         login_url = reverse_lazy('main')
     4. Вместо редиректа можно выдать страницу с ошибкой 403 - доступ запрещён
         raise_exception = True
@@ -740,4 +740,47 @@ XXII. Постраничная навигация(Пагинцация) --------
 3) Кнопки next и back в пагинаци
     1. Проверим есть ли следующая страница и если True, то выведем ссылку на в навигации. Аналогично и с движением назад
     2. Будем использовать методы page_obj.has_next для проверки и page_obj.next_page_number для вывода ссылки
+
+XXIII. Логин пользователей----------------------------------------------------------------------------------------------------------------------------
+
+1) Создаём возможность логиниться на сайте при помощи LoginView
+    1. Добавляем новый маршрут в urls.py основной конфигурации
+        path('accounts/', include("django.contrib.auth.urls"))
+    2. Django будет искать шаблон для рендера по пути (registration/login.html)
+    3. Поэтому в каталоге templates создаём каталог registration и уже в нем создаём шаблон login.html
+        /templates/registration/login.html
+    4. В шаблоне создаём конструкцию для защинты({% csrf_token %})
+    5. Вывод формы
+        {% for form_item in form %}
+            <label for="{{ form_item.id_for_label }}">{{form_item.label}}</label><p>{{form_item}}</p>
+        {% endfor %}
+
+XXIV. Регистрация пользователей---------------------------------------------------------------------------------------------------------------------------
+
+1) Создаём View для регистрации
+    1. Создаём класс представления RegisterUser на базе класса CreateView
+        class RegisterUser(DataMixin, CreateView): ...
+    2. Указываем следующие параметры:
+        а) form_class = RegisterUserForm - Созданный класс формы в forms.py
+        б) template_name = 'register.url' - Шаблон для рендера
+        в) success_url = reverse_lazy("login") - Редирект после успешной регистрации
+2) Создаём форму в forms.py
+    1. Создаём класс формы RegisterUserForm на базе стандартного класса Django для регистрации - UserCreationForm
+        class RegisterUserForm(UserCreationForm): ...
+    2. Переопределяем поля Django модели, чтобы можно было указать свои классы отображения
+        username = forms.CharField(label="Логин", widget=forms.TextInput(attrs={"class":"form-input"}))
+        email = forms.EmailField(label="Email", widget=forms.EmailInput(attrs={"class":"form-input"}))
+        password1 = forms.CharField(label="Пароль", widget=forms.PasswordInput(attrs={"class":"form-input"}))
+        password2 = forms.CharField(label="Повтор пароля", widget=forms.PasswordInput(attrs={"class":"form-input"}))
+    3. Создаём класс Meta, в котором указываем с какой моделью работаем и с какими полями
+        class Meta:
+            # User - стандартная модель в Django для пользователей
+            model = User
+            fields = ("username", "email", "password1", "password2")
+3) Создаём шаблон представления формы регистрации
+    1. Всё как обычно, указываем {% csrf_token %} и при помощи цикла вызываем элементы формы
+    2. Для отображения ошибок используется конструкция {% form_item.errors %}
     
+
+
+

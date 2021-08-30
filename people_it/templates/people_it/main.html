@@ -7,6 +7,11 @@
         <h2 class="post_name">{{ person.name }}</h2>
         <p class='post_content'>{{ person.who_is }}</p> 
     </div>
+    <div class="content_time_body">
+        <div class="content_time_item">Дата Создания: {{ person.time_create }}</div>
+        <div class="content_time_item">Последние изменение: {{ person.time_update }}</div>
+    </div>
+    
     <a href="{{ person.get_absolute_url }}" class="btn"><div class="btn_text">Читать пост</div></a>  
   
     {% endfor %}

@@ -12,7 +12,7 @@
     <title>{{ title }}</title>
 </head>
 <body>
-
+<div class="wrapper">
     <div class="content">
         <header class="header">
             <div class="container">
@@ -24,6 +24,11 @@
                         {% for menu in menu %}
                         <div class="header_items"><a href="{% url menu.url_name %}" class="header_links">{{ menu.name }}</a></div>
                         {% endfor %}
+                        {% if user.is_authenticated %}
+                            <div class="header_last_item">{{user.username }} / <a href="{% url 'logout' %}" class="header_links">LogOut</a></div>
+                        {% else %}
+                            <div class="header_last_item"><a href="{% url 'login' %}" class="header_links">Sign In</a> / <a href="{% url 'register' %}" class="header_links">Sign Up</a></div>
+                        {% endif %}
                         {% endblock %}
                     </nav>
                 </div>
@@ -52,10 +57,30 @@
                 {% block content %}
                 {% endblock %}
                 </div>
-                </div>
+            </div>
+            <div class="pagination">
+                {% if page_obj.has_previous %}
+                    <a href="?page={{ page_obj.previous_page_number }}" class="page_link">&lt</a>
+                {% endif %}
+                {% for page in paginator.page_range %}
+                {% if page_obj.number == page %}
+                    <div class="page_link page_link_selected">{{ page }}</div>
+                {% elif page_obj.number|add:2 >= page and page > page_obj.number|add:-2 %}
+                    <a href="?page={{ page }}" class="page_link">{{ page }}</a>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}" class="page_link">&gt</a>
+                {% endif %}
+            </div>
+        </div>
+        <div>
+        <div class="footer">
+            <div class="footer_row">
+                <div class="footer_item"><a href="https://github.com/Kirill-Makarov-genius/First-Django-Project" class="footer_link">Проект на бумаге(GitHub)</a></div>
             </div>
         </div>
     </div>
-    
+</div>   
 </body>
 </html>

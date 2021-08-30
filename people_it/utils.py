@@ -4,12 +4,12 @@ menu = [
     {"name":"about", 'url_name':"about"},
     {"name":"add post", 'url_name':"add_post"},
     {"name":"work", 'url_name':"work"},
-    {"name":"login", 'url_name':"login"},
 ]
 
 class DataMixin:
-    
+    paginate_by = 5
     def get_user_context(self, **kwargs):
+        
         context = kwargs
         context["menu"] = menu
         if 'cat_selected' not in context:
