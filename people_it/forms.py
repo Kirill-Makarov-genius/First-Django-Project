@@ -7,14 +7,14 @@ from django.forms import widgets
 from people_it.models import *
 
 class AddPostForm(forms.ModelForm):
-    
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['cat'].empty_label = "Категория не выбрана"
+
     
     class Meta:
         model = PeopleIt
-        fields = "__all__"
+        fields = ("name", "who_is", "what_did","achievements", "photo", "cat")
         widgets = {
             'name': forms.TextInput(attrs={"class":"form_input"}),
             'what_did': forms.Textarea(attrs={"cols":60, "rows":20})
